@@ -1,0 +1,18 @@
+{
+  // Format code automatically when you save
+  "editor.formatOnSave": true,
+
+  // Use rust-analyzer as the Rust formatter
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+
+  // Run clippy (instead of just cargo check) for better linting
+  "rust-analyzer.check.command": "clippy",
+
+  // Show clippy warnings as you type / on save
+  "rust-analyzer.checkOnSave": true,
+
+  // Optional: Show inlay hints (very useful when learning)
+  "rust-analyzer.inlayHints.enable": true
+}
