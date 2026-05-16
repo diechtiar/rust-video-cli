@@ -1,4 +1,3 @@
-// src/cli.rs
 use clap::Parser;
 
 #[derive(Parser, Debug)]

@@ -1,4 +1,3 @@
-// src/logging.rs
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 pub fn init_tracing() {
