@@ -6,7 +6,8 @@ async fn main() {
     init_tracing();
 
     let cli = Cli::parse();
-    let http_client = rust_video_cli::http::HttpClient::new();
+    let http_client =
+        rust_video_cli::http::HttpClient::new().expect("Failed to create HTTP client");
 
     if cli.debug {
         tracing::debug!("Debug mode enabled");
@@ -22,6 +23,20 @@ async fn main() {
         }
         Err(e) => {
             tracing::error!("HTTP request failed: {}", e);
+        }
+    }
+
+    let form_data = [("name", "Wojciech"), ("project", "rust-video-cli")];
+
+    match http_client
+        .post("https://httpbin.org/post", &form_data)
+        .await
+    {
+        Ok(body) => {
+            tracing::info!("POST Response received:\n{}", body);
+        }
+        Err(e) => {
+            tracing::error!("POST request failed: {}", e);
         }
     }
 }
