@@ -1,30 +1,49 @@
 # rust-video-cli
-Production-quality Rust CLI for website login flows, video player detection, stream interception, and ffmpeg downloads. Built iteratively as a modern Rust learning project following best practices (clap, thiserror, tracing, tests, clippy).
 
-## License
+A production-quality Rust CLI for handling website login flows, detecting video players, intercepting streams, and downloading videos using ffmpeg.
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is being built **iteratively** as a learning exercise, following modern Rust best practices (clap, thiserror, tracing, clean architecture, testing, and clippy).
 
-Copyright (c) 2026 Wojciech Diechtiar
+## Current Features
+
+- Clean command-line interface powered by `clap`
+- Reusable `HttpClient` module featuring:
+  - Automatic cookie/session handling
+  - Custom default headers support
+  - `GET` and `POST` methods
+  - Proxy support (for debugging with mitmproxy)
+- Structured logging using `tracing`
+- Proper error handling with `thiserror`
+- Modular and testable project structure
+
+## Usage
+
+```bash
+# Show help
+cargo run -- --help
+
+# Run with debug output
+cargo run -- --debug
+```
 
 ## Development Setup (Windows + WSL + VS Code)
 
 This project is developed inside **WSL2** (Ubuntu) for Linux compatibility.
 
-### 1. Prerequisites
+### Prerequisites
 
 - Windows 11
-- [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) with Ubuntu
+- [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) with Ubuntu installed
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [Remote - WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl) extension
 
-### 2. Setup Steps
+### Setup Steps
 
 ```bash
 # 1. Install WSL2 (run in PowerShell as Administrator)
 wsl --install
 
-# 2. Open Ubuntu and install build tools
+# 2. Open Ubuntu and install required build tools
 sudo apt update && sudo apt install build-essential -y
 
 # 3. Install Rust
@@ -35,15 +54,15 @@ source "$HOME/.cargo/env"
 git clone https://github.com/diechtiar/rust-video-cli.git
 cd rust-video-cli
 
-# 5. Open in VS Code from WSL
+# 5. Open the project in VS Code (from WSL)
 code .
 ```
 
-### 3. Recommended VS Code Settings
+### Recommended VS Code Settings
 
-This goes into `.vscode/settings.json` in the project directory:
+Create `.vscode/settings.json`:
 
-```JSON
+```json
 {
   "editor.formatOnSave": true,
   "[rust]": {
@@ -54,12 +73,29 @@ This goes into `.vscode/settings.json` in the project directory:
 }
 ```
 
-### 4. Useful commands
+### Useful Commands
+
 ```bash
 cargo check
 cargo fmt
 cargo clippy
 cargo test
 cargo run -- --help
-
+cargo run -- --debug
 ```
+
+## Debugging & Traffic Inspection
+
+You can route all HTTP/HTTPS traffic through **mitmproxy** for inspection:
+
+```bash
+HTTP_PROXY=http://127.0.0.1:8080 HTTPS_PROXY=http://127.0.0.1:8080 cargo run -- --debug
+```
+
+> Note: You may need to run mitmproxy with `.danger_accept_invalid_certs(true)` temporarily during development.
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2026 Wojciech Diechtiar

@@ -1,23 +1,69 @@
-# What I Learned Today – Rust Video CLI developer's log
+# Developers Log – Rust Video CLI
 
-## Date: May 16, 2026
+This file serves as a personal development journal. It records progress, key learnings, decisions, and reflections throughout the project.
 
-### Key things I learned:
+_This log is intentionally kept personal and reflective. It helps track both technical progress and the learning journey_
 
- - How to properly set up a Rust development environment on Windows using WSL2 + VS Code with Remote WSL. 
- - The importance of a clean project structure (lib.rs + cli.rs + error.rs) instead of putting everything in main.rs. Clean architecture is crucial, but I don't have any experience in rust projects yet. Let this be the starting point.
-- That using `thiserror` for error handling instead of fighting with Box<dyn Error> is a smart choice.
-- How to configure VS Code for Rust (format on save + clippy via rust-analyzer).
-- That getting stuck on environment issues (cc linker, wrong edition, missing dependencies) is completely normal when starting with Rust — and solvable.
-- What **procedural macros** are. The comparison to Angular decorators helps with understanding the concept.
-- What a **crate** is.
-- How to setup a minimal Rust project.
+---
+
+## 2026-05-17
+
+### What was done:
+- Refactored `HttpClient` into a proper reusable struct with `get()` and `post()` methods
+- Added support for custom headers via `with_header()`
+- Added cookie/session support using `.cookie_store(true)`
+- Added proxy support (`Proxy::all`) for debugging with mitmproxy
+- Successfully routed traffic through mitmproxy and inspected requests/responses
+- Improved `new()` constructor to return `Result<Self, AppError>`
+
+### Key learnings:
+- How to properly handle proxy configuration in `reqwest`
+- Importance of `.danger_accept_invalid_certs(true)` when testing with mitmproxy (temporary)
+- Better understanding of `Self`, associated functions, and the builder pattern
+- `&str` vs `String` and when to use each
+
+### Reflections:
+Being able to see real traffic in mitmproxy is nice for my mostly non-visual type of mental processing. It makes future work on login flows much more tangible.
+
+Rust is slowing getting comfy somewhere in my brain, but hey, it's been just two days working with it. Many concepts encountered up to this moment start to get clearer from session to session. Self, associated functions, strong function typing, focus on functional programming encouraged by implicit return (_think about returned value, instead of focusing on data flow_), and more.
+
+---
+
+## 2026-05-16
+
+### What was done:
+- Initialized the project with `clap`
+- Created clean module structure (`cli`, `error`, `http`, `logging`)
+- Added `thiserror` for proper error handling
+- Added `tracing` + `tracing-subscriber` for structured logging
+- Set up WSL2 + VS Code development environment
+- Created initial `HttpClient` with basic `fetch_url` functionality
+
+### Key learnings:
+- Rust development feels very different from frontend work at first, but the tooling (especially rust-analyzer) becomes extremely powerful once configured
+- Procedural macros (e.g. `#[derive(Parser)]`, `#[derive(Error)]`) are similar to Angular decorators + code generation
+- Using `thiserror` is much better than manually implementing `From` and `Display`
+- Environment issues (missing `build-essential`, wrong `edition`, missing features) are normal when starting with Rust
 
 ### Biggest realizations:
-
-- Rust development is entirely different to me than frontend development at the first approach, but the tooling (especially rust-analyzer) seems to be very powerful once configured.
-- Starting small with vertical slices and proper foundations early makes future work much easier.
-- I went from basically 0% Rust knowledge to having a working CLI skeleton with modules, error handling, and logging in one session.
+- Starting with small vertical slices and solid foundations early pays off significantly later
+- Clean module structure from the beginning makes the project much more maintainable
+- I went from ~0% Rust knowledge to having a working CLI with modules, error handling, logging, and HTTP capabilities surprisingly quickly
 
 ### How I feel:
-I missed the feeling of excitement for a long time. This toy project got me bit mentally tired from fighting environment issues, but genuinely excited. Learning new stuff shouldn't be boring.
+Excited. After a long time, I feel genuinely motivated while coding again. The initial friction with the environment was tiring, but overcoming it and seeing the project take shape is very rewarding.
+
+---
+
+## Key Decisions Log
+
+| Date       | Decision                              | Reason |
+|------------|---------------------------------------|--------|
+| 2026-05-16 | Use `thiserror` instead of `Box<dyn Error>` | Better error messages and maintainability |
+| 2026-05-17 | Make `HttpClient::new()` return `Result` | More idiomatic and allows proper error handling |
+| 2026-05-17 | Use `Proxy::all()` instead of `Proxy::http()` | Needed for HTTPS traffic when using mitmproxy the |
+| 2026-05-17 | Add `.danger_accept_invalid_certs(true)` temporarily | Required to work with mitmproxy during development |
+
+---
+
+
