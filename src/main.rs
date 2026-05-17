@@ -6,6 +6,7 @@ async fn main() {
     init_tracing();
 
     let cli = Cli::parse();
+    let http_client = rust_video_cli::http::HttpClient::new();
 
     if cli.debug {
         tracing::debug!("Debug mode enabled");
@@ -15,9 +16,8 @@ async fn main() {
 
     tracing::info!("Making test HTTP request...");
 
-    match reqwest::get("https://httpbin.org/ip").await {
-        Ok(response) => {
-            let body = response.text().await.unwrap_or_default();
+    match http_client.get("https://httpbin.org/ip").await {
+        Ok(body) => {
             tracing::info!("Response received:\n{}", body);
         }
         Err(e) => {
