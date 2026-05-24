@@ -84,6 +84,10 @@ cargo run -- --help
 cargo run -- --debug
 ```
 
+### Notes
+
+**Note on Browser Automation**: When using browser-based features, Chrome will be automatically downloaded into the `.chrome` folder if not present on the system. You can run with a visible browser window during development for easier debugging.
+
 ## Debugging & Traffic Inspection
 
 You can route all HTTP/HTTPS traffic through **mitmproxy** for inspection:
@@ -93,6 +97,15 @@ HTTP_PROXY=http://127.0.0.1:8080 HTTPS_PROXY=http://127.0.0.1:8080 cargo run -- 
 ```
 
 > Note: You may need to run mitmproxy with `.danger_accept_invalid_certs(true)` temporarily during development.
+
+## Browser Automation
+
+For websites protected by Cloudflare or that rely heavily on JavaScript (such as login flows), this project uses **browser automation** powered by `chromiumoxide`.
+
+- Automatically downloads and manages a Chrome instance if none is found
+- Enables realistic login flows that can handle CSRF tokens and JavaScript-rendered pages
+- Supports both headed mode (visible browser window) for debugging and headless mode
+- Currently used as the primary method for authentication flows
 
 ## License
 

@@ -6,6 +6,31 @@ _This log is intentionally kept personal and reflective. It helps track both tec
 
 ---
 
+## 2026-05-24
+
+### What was done:
+- Decided to abandon the pure `reqwest` + `scraper` approach for login flows, and switch to browser automation using `chromiumoxide` to better handle Cloudflare-protected sites
+- Created `src/browser.rs` with core functions:
+  - `launch_browser_and_goto()`
+  - `perform_login()`
+  - `login_with_browser()` (combined high-level flow)
+- Implemented automatic Chrome download using `BrowserFetcher` (with fallback to system Chrome)
+- Successfully launched Chrome from WSL2 and navigated to login pages
+
+### Key learnings:
+- Pure HTTP clients have strong limitations against modern bot protection (Cloudflare), and browser automation provides a much more realistic and reliable way to handle logins
+- `chromiumoxide` requires proper Chrome binary management, especially in WSL2 environments
+- The `BrowserFetcher` needs a writable directory and correct initialization with `BrowserFetcherOptions`
+
+### Reflections:
+This was an important architectural decision. While it adds complexity (managing a browser), it significantly increases the chances of successfully automating real-world login flows. 
+
+Initial enthusiasm I felt is fading away, but that is not a problem. You can call me "Discipline and Tenacity".
+
+### Current blockers:
+- Browser WebSocket connection occasionally drops (`Connection reset by peer`)
+- Still working on stable element selection and login success detection
+
 ## 2026-05-17
 
 ### What was done:
