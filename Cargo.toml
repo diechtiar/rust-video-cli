@@ -4,9 +4,14 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+chromiumoxide = { version = "0.9.1", features = ["fetcher"] }
+chromiumoxide_fetcher = "0.9.1"
 clap = { version = "4.5", features = ["derive"] }
+futures = "0.3.32"
 reqwest = { version = "0.13.3", features = ["cookies", "form", "rustls"] }
+scraper = "0.27.0"
 thiserror = "2.0.18"
 tokio = { version = "1.52.3", features = ["full"] }
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
+which = "8.0.2"
